@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('advantage_service', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('service_id')->nullable()->index('fk_advantage_servive_to_service');
-            $table->string('advantage');
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::table('tagline', function (Blueprint $table) {
+            $table->foreign('service_id', 'fk_tagline_to_service')
+            ->references('id')->on('service')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('advantage_service');
+        Schema::table('tagline', function (Blueprint $table) {
+            $table->dropForeign('fk_tagline_to_service');
+        });
     }
 };
