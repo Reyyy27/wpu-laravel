@@ -18,10 +18,10 @@ Use App\Http\Controllers\Dashboard\ServiceController;
 //
 
 
-route::get('detail_booking/{id}', landingController::class,'detail_booking')->name('detail.booking.landing');
-route::get('detail/{id}', landingController::class,'detail')->name('detail.landing');
-route::get('booking/{id}', landingController::class,'booking')->name('booking.landing');
-route::get('explore', landingController::class,'explore')->name('explore.landing');
+route::get('detail_booking/{id}', [landingController::class,'detail_booking'])->name('detail.booking.landing');
+route::get('detail/{id}', [landingController::class,'detail'])->name('detail.landing');
+route::get('booking/{id}', [landingController::class,'booking'])->name('booking.landing');
+route::get('explore', [landingController::class,'explore'])->name('explore.landing');
 route::resource('/', landingController::class);
 
 
@@ -36,16 +36,16 @@ function(){
     route::resource('service', ServiceController::class);
 
     //request
-    route::get('approve_request/{id}', RequestController::class,'approve')->name('approve.request');
+    route::get('approve_request/{id}', [RequestController::class,'approve'])->name('approve.request');
     route::resource('request', RequestController::class);
 
     //my order
-    route::get('accept/order/{id}', MyOrderController::class,'accepted')->name('accept.order');
-    route::get('reject/order/{id}', MyOrderController::class,'rejected')->name('reject.order');
+    route::get('accept/order/{id}', [MyOrderController::class,'accepted'])->name('accept.order');
+    route::get('reject/order/{id}', [MyOrderController::class,'rejected'])->name('reject.order');
     route::resource('order', MyOrderController::class);
 
     //profile
-    route::get('delete_photo', ProfileController::class,'delete')->name('delete.photo.profile');
+    route::get('delete_photo', [ProfileController::class,'delete'])->name('delete.photo.profile');
     route::resource('profile', ProfileController::class);
 
 });
@@ -53,20 +53,3 @@ function(){
 
 
 
-
-/*
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
-/*
