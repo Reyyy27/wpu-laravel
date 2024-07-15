@@ -1,45 +1,46 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html x-data="data()" lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        
+        @include('include.dashboard.meta')
+    
+        <title>@yield('title') | SERV   </title>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        @stack('before-style')
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        @include('include.dashboard.style')
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('after-style')
 
-        <!-- Styles -->
-        @livewireStyles
     </head>
-    <body class="font-sans antialiased">
-        <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+    <body class="antialiased">
+        <div class="flex h-screen bg-serv-services-bg" :class="{'overflow-hidden': isSideMenuOpen}">
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+            @include('components.dashboard.desktop')
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <div x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"></div>
+       
+
+            @include('components.dashboard.mobile')
+
+            <div class="flex flex-col flex-1 w-full">
+
+                @include('components.dashboard.header')
+
+                {{--  @include('sweetalert::alert') --}}
+
+                @yield('content')
+
+            </div>
+
         </div>
 
-        @stack('modals')
+        @stack('before-script')
 
-        @livewireScripts
+        @include('include.dashboard.script')
+
+        @stack('after-script')
+
     </body>
 </html>
