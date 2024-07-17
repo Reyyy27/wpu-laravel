@@ -25,10 +25,7 @@ use App\Models\Tagline;
 
 class MyOrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth']);
-    }
+    public $middleware = ['auth'];
 
 
     /**
@@ -66,7 +63,7 @@ class MyOrderController extends Controller
 
         $thumbnail = ThumbnailService::where('id', $order['service_id'])->get();
         $advantage_service = AdvantageService::where('id', $order['service_id'])->get();
-        $advantage_user = ThumbnailUser::where('id', $order['service_id'])->get();
+        $advantage_user = AdvantageUser::where('id', $order['service_id'])->get();
         $tagline = Tagline::where('id', $order['service_id'])->get();
 
 

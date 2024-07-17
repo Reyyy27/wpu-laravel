@@ -20,10 +20,7 @@ use App\Models\ExperienceUser;
 
 class ProfileController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth']);
-    }
+    public $middleware = ['auth'];
     
     /**
      * Display a listing of the resource.

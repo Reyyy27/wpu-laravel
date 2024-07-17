@@ -25,10 +25,7 @@ use App\Models\User;
 
 class ServiceController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth']);
-    }
+    public $middleware = ['auth'];
     
     /**
      * Display a listing of the resource.
@@ -172,8 +169,8 @@ class ServiceController extends Controller
                 //get old photo
                 $get_photo = ThumbnailService::where('id', $key)->first();
                 
-                //delete old photo
-                $path = $file->store(
+                //delete old photo  //$file to $value
+                $path = $value->store(
                     'asset/service/thumbnail', 'public'
                 );
 

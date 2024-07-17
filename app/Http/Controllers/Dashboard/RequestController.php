@@ -18,10 +18,7 @@ use App\Models\OrderStatus;
 
 class RequestController extends Controller
 {   
-    public function __construct()
-    {
-        $this->middleware(['auth']);
-    }
+    public $middleware = ['auth'];
     /**
      * Display a listing of the resource.
      */
@@ -93,7 +90,7 @@ class RequestController extends Controller
         $order->save();
 
         toast()->success('Approve has been success');
-        return redirect()->route('member.request.index')
+        return redirect()->route('member.request.index');
 
     }
 
