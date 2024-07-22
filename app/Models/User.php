@@ -24,6 +24,8 @@ class User extends Authenticatable
 
     use SoftDeletes;
 
+    /** protected $table = ""
+    */
     protected $dates = [
         'updated_at',
         'created_at',

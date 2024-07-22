@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Validation\Rule;
+
 use Illuminate\Support\Facades\Auth;
 
 class UpdateProfileRequest extends FormRequest
@@ -13,7 +14,7 @@ class UpdateProfileRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -26,17 +27,11 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => [
-                'nullable', 'file', 'max:1024',
+            'name' => [
+                'required', 'string', 'max:255',
             ],
-            'role' => [
-                'nullable', 'string', 'max:100',
-            ],
-            'contact_number' => [
-                'required', 'regex:/^([0-9\s\-\+(\)]*)$', 'max:12',
-            ],
-            'biography' => [
-                'nullable', 'string', 'max:5000',
+            'email' => [
+                'required', 'string', 'max:255', 'email', Rule::unique('users')->where(function ($query) {$query->where('id', '<>', Auth::user()->id);}),
             ],
         ];
     }

@@ -2,19 +2,19 @@
 
 namespace App\Http\Requests\Dashboard\Profile;
 
-use App\Models\DetailUser;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\DetailUser;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
 
 class UpdateDetailUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -27,11 +27,17 @@ class UpdateDetailUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required', 'string', 'max:255',
+            'photo' => [
+                'nullable', 'file', 'max:1024',
             ],
-            'email' => [
-                'required', 'string', 'max:255','email', Rule::unique('users')->where('id','<>', Auth::user()->id),
+            'role' => [
+                'required', 'string', 'max:100',
+            ],
+            'contact_number' => [
+                'required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'max:12',
+            ],
+            'biography' => [
+                'nullable', 'string', 'max:5000',
             ],
         ];
     }

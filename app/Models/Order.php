@@ -36,23 +36,23 @@ class Order extends Model
     //one to many
     public function user_buyer() 
     {
-        return$this->belongsTo('App/model/User', 'buyer_id','id');    
+        return$this->belongsTo('App/models/User', 'buyer_id','id');    
     }
 
     public function user_freelancer() 
     {
-        return$this->belongsTo('App/model/User', 'freelancer_id','id');    
+        return$this->belongsTo('App/models/User', 'freelancer_id','id');    
     }   
 
     //one to many
     public function service() 
     {
-        return$this->belongsTo('App/model/Service', 'service_id','id');    
+        return$this->belongsTo('App/models/Service', 'service_id','id');    
     }
 
     //one to many
     public function order_status() 
     {
-        return$this->belongsTo('App/model/OrderStatus', 'order_status_id','id');    
+        return$this->belongsTo('App/models/OrderStatus', 'order_status_id','id');    
     }
 }

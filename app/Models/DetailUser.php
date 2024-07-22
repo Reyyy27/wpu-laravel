@@ -34,7 +34,7 @@ class DetailUser extends Model
     //one to one
     public function user() 
     {
-        return$this->belongsTo('App/model/User', 'users_id','id');    
+        return$this->belongsTo('App/models/User', 'users_id','id');    
     }
 
 

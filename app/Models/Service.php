@@ -25,7 +25,7 @@ class Service extends Model
         'description',
         'delivery_time',
         'revision_limit',
-        'peice',
+        'price',
         'note',
         'updated_at',
         'created_at',
@@ -34,9 +34,9 @@ class Service extends Model
     
 
     //one to many
-    public function user() 
+    public function user()  // user atau users ??
     {
-        return$this->belongsTo('App/model/User', 'users_id','id');    
+        return$this->belongsTo('App/models/User', 'users_id','id');    
     }
 
     public function advantage_user()

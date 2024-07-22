@@ -3,9 +3,9 @@
 @section('title', 'My Request')
 
 @section('content') 
-{{--  
-@if ()
---}}
+
+@if (count($orders))
+
     <main class="h-full overflow-y-auto">
         <div class="container mx-auto">
             <div class="grid w-full gap-5 px-10 mx-auto md:grid-cols-12">
@@ -162,7 +162,7 @@
         </section>
     </main>
 
-    {{--  
+    
     @else
 
     <div class="flex h-screen">
@@ -185,7 +185,7 @@
     </div>
 
     @endif 
-    --}}
+    
 
     @endsection
 

@@ -107,11 +107,11 @@ class LandingController extends Controller
 
         $order = new Order;
         $order->buyer_id = $user_buyer;
-        $order->freelancer_id = $service->user->id;
-        $order->service_id = $service->id;
+        $order->freelancer_id = $service->user->id ?? NULL; // ?? NULL added
+        $order->service_id = $service->id; 
         $order->file = NULL;
         $order->note = NULL;
-        $order->expired = Date('y-m-d', strtotimre('+3 Days'));
+        $order->expired = Date('y-m-d', strtotime('+3 Days'));
         $order->order_status_id = 4;
         $order->save();
 

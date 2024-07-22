@@ -29,6 +29,6 @@ class Tagline extends Model
     //one to many
     public function service() 
     {
-        return$this->belongsTo('App/model/Service', 'service_id','id');    
+        return$this->belongsTo('App/models/Service', 'service_id','id');    
     }
 }

@@ -6,22 +6,25 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Dashboard\Profile\UpdateProfileRequest;
 use App\Http\Requests\Dashboard\Profile\UpdateDetailUserRequest;
+
 use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\Authenticate;
+
 use App\Models\User;
 use App\Models\DetailUser;
 use App\Models\ExperienceUser;
 
+
 class ProfileController extends Controller
 {
+
     public $middleware = ['auth'];
-    
     /**
      * Display a listing of the resource.
      */
@@ -29,9 +32,8 @@ class ProfileController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->first();
         $experience_user = ExperienceUser::where('detail_user_id', $user->detail_user->id)
-                                        ->orderBy('id', 'asc')
-                                        ->get();
-
+                                ->orderBy('id', 'asc')
+                                ->get();
 
         return view('pages.dashboard.profile', compact('user', 'experience_user'));
     }
@@ -50,6 +52,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         return abort(404);
+
     }
 
     /**
@@ -58,6 +61,7 @@ class ProfileController extends Controller
     public function show(string $id)
     {
         return abort(404);
+
     }
 
     /**
@@ -66,6 +70,7 @@ class ProfileController extends Controller
     public function edit(string $id)
     {
         return abort(404);
+
     }
 
     /**
@@ -76,86 +81,94 @@ class ProfileController extends Controller
         $data_profile = $request_profile->all();
         $data_detail_user = $request_detail_user->all();
 
-        //get photo user
-        $getphoto = DetailUser::where('users_id', Auth::user()->id)->first();
+        // get photo user
+        $get_photo = DetailUser::where('users_id', Auth::user()->id)->first() ;
 
-        //delete old file photo
+
+        // delete old file from storage
         if(isset($data_detail_user['photo'])){
-            $data = 'torage/'.$getphoto['photo'];
-            if(File::exists($data)){
-                File::delete($data);
-            }
-            else{
-                File::delete('storage/app/public/'.$getphoto['photo']);
-            }
+                $data = 'storage/'.$get_photo['photo'];
+                if(File::exists($data)){
+                        File::delete($data);
+                }else{
+                    File::delete('storage/app/public/').$get_photo['photo'];
+                }
+
         }
 
-        //store
-
+        // store file to storage
         if(isset($data_detail_user['photo'])){
-            $data_detail_user['photo'] =$request_detail_user->file('photo')->store(
-                'asset/photo', 'public'
-            );
+                $data_detail_user['photo'] = $request_detail_user->file('photo')->store(
+                    'assets/photo', 'public'
+                );
         }
 
         // save to user
         $user = User::find(Auth::user()->id);
         $user->update($data_profile);
 
-        // save to detail user
+        // save to detail user   
         $detail_user = DetailUser::find($user->detail_user->id);
         $detail_user->update($data_detail_user);
 
-        // save to exp
-        if(isset($data_profile['experience'])){
-            foreach ($data_profile['experience'] as $key => $value){
-                $experience_user = ExperienceUser::find($key);
-                if($experience_user){
-                    $experience_user->detail_user_id = $detail_user['id'];
-                    $experience_user->experience = $value;
-                    $experience_user->save();
-                } else{
+        // save to experience
+        $experience_user_id = ExperienceUser::where('detail_user_id', $detail_user['id'])->first();
+        if(isset($experience_user_id)){
+            foreach ($data_profile['experience'] as $key => $value) {
+                $experience_user = ExperienceUser   ::find($key);
+                $experience_user->detail_user_id = $detail_user['id'];
+                $experience_user->experience = $value;
+                $experience_user->save();
+            }
+            
+        }else {
+            foreach ($data_profile['experience'] as $key => $value) {
+                if(isset($value)){
                     $experience_user = new ExperienceUser;
                     $experience_user->detail_user_id = $detail_user['id'];
                     $experience_user->experience = $value;
                     $experience_user->save();
                 }
+                
             }
         }
 
-        toast()->success('Update has been success');
+        toast()->success('update has been success');
         return back();
+
     }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         return abort(404);
+
     }
 
 
-    //custom
+    // Custom
+
     public function delete(){
-        //get user
+        // get user 
         $get_user_photo = DetailUser::where('users_id', Auth::user()->id)->first();
         $path_photo = $get_user_photo['photo'];
-        // second update value to null 
+
+        // second update value to null
         $data = DetailUser::find($get_user_photo['id']);
-        $data->photo = NULL;
+        $data->photo = null;
         $data->save();
 
-        //delete file photo
-        $data = 'torage/'.$path_photo;
+        //delete file photo 
+        $data = 'storage/'.$path_photo;
         if(File::exists($data)){
             File::delete($data);
-        }else{
+        }else {
             File::delete('storage/app/public/'.$path_photo);
         }
 
         toast()->success('Delete has been success');
         return back();
     }
-    
-    
 }
