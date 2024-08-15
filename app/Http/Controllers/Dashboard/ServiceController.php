@@ -89,13 +89,15 @@ class ServiceController extends Controller
         }
 
         // add to tagline
-
-        foreach($data['tagline'] as $key => $value) {
-            $tagline = new Tagline;
-            $tagline->service_id = $service->id;
-            $tagline->tagline = $value;
-            $tagline->save();
+        if (isset($data['tagline'])) {
+            foreach($data['tagline'] as $key => $value) {
+                $tagline = new Tagline;
+                $tagline->service_id = $service->id;
+                $tagline->tagline = $value;
+                $tagline->save();
+            }
         }
+        
 
         toast()->success('Save has been success');
         return redirect()->route('member.service.index');

@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
-
     use SoftDeletes;
+
     public $table = 'service';
+
     protected $dates = [
         'updated_at',
         'created_at',
-        'deleted_at',
-        
+        'deleted_at'
     ];
 
     protected $fillable = [
-        'users_id',
-        'title',
+        'users_id', 
+        'title', 
         'description',
         'delivery_time',
         'revision_limit',
@@ -30,13 +30,12 @@ class Service extends Model
         'updated_at',
         'created_at',
         'deleted_at'
-    ];
-    
+    ]; 
 
-    //one to many
-    public function user()  // user atau users ??
+    // one to many
+    public function users()
     {
-        return$this->belongsTo('App/models/User', 'users_id','id');    
+        return $this->belongsTo('App\Models\User', 'users_id', 'id');
     }
 
     public function advantage_user()
@@ -48,7 +47,7 @@ class Service extends Model
     {
         return $this->hasMany('App\Models\AdvantageService','service_id');
     }
-    
+
     public function thumbnail_service()
     {
         return $this->hasMany('App\Models\ThumbnailService','service_id');
@@ -58,9 +57,10 @@ class Service extends Model
     {
         return $this->hasMany('App\Models\Tagline','service_id');
     }
-
+    
     public function order()
     {
         return $this->hasMany('App\Models\Order','service_id');
     }
+
 }

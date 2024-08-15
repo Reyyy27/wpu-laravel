@@ -28,13 +28,13 @@ class OrderStatus extends Model
     //one to many
     public function order() 
     {
-        return$this->belongsTo('App/models/Order', 'order_status_id','id');    
+        return$this->belongsTo('App\models\Order', 'order_status_id','id');    
     }
 
     //one to many
     public function service() 
     {
-        return$this->belongsTo('App/models/Service', 'service_id','id');    
+        return$this->belongsTo('App\models\Service', 'service_id','id');    
     }
 
     //one to many

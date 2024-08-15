@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\Authenticate;
 
 use App\Models\Order;
 use App\Models\Service;
-use App\Models\AdvantageService;
-use App\Models\Tagline;
 use App\Models\AdvantageUser;
+use App\Models\Tagline;
+use App\Models\AdvantageService;
 use App\Models\ThumbnailService;
+
 class LandingController extends Controller
 {
     /**
@@ -21,9 +21,9 @@ class LandingController extends Controller
      */
     public function index()
     {
-        $services = Service::orderBy('created_at','desc')->get();
+        $services = Service::orderBy('created_at', 'desc')->get();
 
-        return view('pages.landing.index',compact('services'));
+        return view('pages.landing.index', compact('services'));
     }
 
     /**
@@ -75,40 +75,42 @@ class LandingController extends Controller
     }
 
 
-    //custom
 
-    public function explore(){
+    // Custom
 
-        $services = Service::orderBy('created_at','desc')->get();
+    public function explore()
+    {
+        $services = Service::orderBy('created_at', 'desc')->get();
 
-        return view('pages.landing.explore',compact('services'));
+        return view('pages.landing.explore', compact('services'));
     }
 
-    public function detail($id){
-        
+    public function detail($id)
+    {
         $service = Service::where('id', $id)->first();
-        $thumbnail = ThumbnailService::where('service_id',$id)->get();
-        $advantage_user = AdvantageUser::where('service_id',$id)->get();
-        $advantage_service = AdvantageService::where('service_id',$id)->get();
-        $tagline = Tagline::where('service_id',$id)->get();
+        $thumbnail = ThumbnailService::where('service_id', $id)->get();
+        $advantage_user = AdvantageUser::where('service_id', $id)->get();
+        $advantage_service = AdvantageService::where('service_id', $id)->get();
+        $tagline = Tagline::where('service_id', $id)->get();
 
-        return view('pages.landing.detail', compact('service','thumbnail','advantage_user','advantage_service','tagline'));
+        return view('pages.landing.detail', compact('service', 'thumbnail', 'advantage_user', 'advantage_service', 'tagline'));
     }
 
-    public function booking($id){
+    public function booking($id)
+    {
         $service = Service::where('id', $id)->first();
-        $user_buyer = Auth::User()->id;
+        $user_buyer = Auth::user()->id;
 
-        //validation booking
-        if ($service->users_id = $user_buyer) {
-            toast()->warning('Sorry, members can not book their own service!');
+        // validation booking
+        if($service->users_id == $user_buyer){
+            toast()->warning('Sorry, members cannot book their own service!');
             return back();
         }
 
         $order = new Order;
         $order->buyer_id = $user_buyer;
-        $order->freelancer_id = $service->user->id ?? NULL; // ?? NULL added
-        $order->service_id = $service->id; 
+        $order->freelancer_id = $service->users->id ?? null;
+        $order->service_id = $service->id;
         $order->file = NULL;
         $order->note = NULL;
         $order->expired = Date('y-m-d', strtotime('+3 Days'));
@@ -117,15 +119,13 @@ class LandingController extends Controller
 
         $order_detail = Order::where('id', $order->id)->first();
 
-        return redirect()->route('detail.order.detail', $order->id);
-
+        return redirect()->route('detail.booking.landing', $order->id);
     }
 
-    public function detail_booking($id){
+    public function detail_booking($id)
+    {
         $order = Order::where('id', $id)->first();
 
-        return view('pages.landing.booking', compact($order));
+        return view('pages.landing.booking', compact('order'));
     }
-
-
-}
+}   
