@@ -147,6 +147,8 @@
                                                     <path
                                                         d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                                 </svg>
+
+
                                             @endif
 
                                             <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true">
@@ -158,6 +160,16 @@
                                             </p>
                                         </div>
                                     </div>
+                                </td>
+
+                                <td class="px-1 py-5 text-xs text-red-500">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="inline mb-1">
+                                        <path d="M7.0002 12.8332C10.2219 12.8332 12.8335 10.2215 12.8335 6.99984C12.8335 3.77818 10.2219 1.1665 7.0002 1.1665C3.77854 1.1665 1.16687 3.77818 1.16687 6.99984C1.16687 10.2215 3.77854 12.8332 7.0002 12.83322" stroke="#F26E6E" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M7 3.5V7L9.33333 8.16667" stroke="#F26E6E" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+
+                                    {{ date("d/m/Y", strtotime($item->expired)) ?? '' }}
                                 </td>
 
                             </tr>

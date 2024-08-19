@@ -168,11 +168,14 @@ class ServiceController extends Controller
         }
 
         //update tagline
-        foreach ($data['taglines'] as $key => $value) {
-            $tagline = Tagline::find($key);
-            $tagline->tagline = $value;
-            $tagline->save();
+        if (isset($data['taglines'])) {
+            foreach ($data['taglines'] as $key => $value) {
+                $tagline = Tagline::find($key);
+                $tagline->tagline = $value;
+                $tagline->save();
+            }
         }
+        
 
         // add nnew tagline
         if (isset($data['tagline'])) {

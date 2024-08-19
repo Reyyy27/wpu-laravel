@@ -67,7 +67,7 @@ class MyOrderController extends Controller
         $tagline = Tagline::where('id', $order['service_id'])->get();
 
 
-        return view('pages.dashboard.order.detail', compact('orders','thumbnail','advantage_service','advantage_user','tagline','service'));
+        return view('pages.dashboard.order.detail', compact('order','thumbnail','advantage_service','advantage_user','tagline','service'));
     }
 
     /**
@@ -75,7 +75,7 @@ class MyOrderController extends Controller
      */
     public function edit(Order $order)
     {
-        return view('pages.dashboard.order.edit',compact('orders'));
+        return view('pages.dashboard.order.edit',compact('order'));
     }
 
     /**
@@ -97,7 +97,7 @@ class MyOrderController extends Controller
         $order->save();
 
         toast()->success('Submit order has been success');
-        return redirect()->route('dashboard.order.index');
+        return redirect()->route('pages.dashboard.order.index');
     }
 
     /**
