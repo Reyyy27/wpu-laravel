@@ -150,7 +150,7 @@
                                 </a>
 
                                 @if ($order->order_status_id == 2 && @isset($order->file))
-                                    <a href="{{ route('member.request.approve', $order->id) }}" type="button"
+                                    <a href="{{ route('member.approve.request', $order->id) }}" type="button"
                                         class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" onclick="return confirm('Are you sure want to approve this data?')">
                                         Approve
                                     </a>
