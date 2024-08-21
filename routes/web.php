@@ -12,11 +12,10 @@ Use App\Http\Controllers\Dashboard\MyOrderController;
 Use App\Http\Controllers\Dashboard\ProfileController;
 Use App\Http\Controllers\Dashboard\RequestController;
 Use App\Http\Controllers\Dashboard\ServiceController;
-
-
+use App\Http\Controllers\KalkulatorController;
 
 //
-
+route::get('/kalkulator', [KalkulatorController::class, 'index'])->name('kalkulator');
 
 route::get('detail_booking/{id}', [landingController::class,'detail_booking'])->name('detail.booking.landing');
 route::get('detail/{id}', [landingController::class,'detail'])->name('detail.landing');
